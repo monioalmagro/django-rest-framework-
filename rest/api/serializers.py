@@ -1,12 +1,12 @@
 from rest_framework import serializers
-from djanfo.contrib.auth.models import user
+from django.contrib.auth.models import User
 
 class UserSerializer(serializers.Serializer):
     id = serializers.ReadOnlyField()
-    firts_name = serializers.CharField()
+    first_name = serializers.CharField()
     last_name = serializers.CharField()
     username = serializers.CharField()
-    email = serializers,EmailField()
+    email = serializers.EmailField()
     password = serializers.CharField()
 
     def create(self, validate_data):
@@ -20,7 +20,7 @@ class UserSerializer(serializers.Serializer):
         return instance
 
     def validate_username(self, data):
-        users = User.objects.filters(username = data)
+        user = User.objects.filter(username = data)
         if len(user) != 0:
             raise serializers.ValidationError("Este nombre ya existe , ingrese uno nuevo")
         else:
